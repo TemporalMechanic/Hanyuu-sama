@@ -164,7 +164,7 @@ def dj(server, nick, channel, text, hostmask):
                     server.topic(channel, u"".join(result))
                     manager.DJ().name = new_dj
                 else:
-                    server.privmsg(channel, "Topic is the wrong format, can't set new topic")
+                    server.privmsg(channel, "Topic is the wrong format; can't set new topic")
         else:
             server.notice(nick, "You don't have the necessary privileges to do this.")
     else:
@@ -270,10 +270,9 @@ def kill_afk(server, nick, channel, text, hostmask):
         try:
             stream = main.connect()
             stream.switch_dj(force=True)
-            message = u"Forced AFK Streamer down,\
-                        please connect in 15 seconds or less."
+            message = u"Forced AFK Streamer down, please connect in 15 seconds or less."
         except:
-            message = u"Something went wrong, please punch Wessie."
+            message = u"Something went wrong, please punch Wessie (Tell him it was kill_afk)"
             logging.exception("AFK kill failed")
         server.privmsg(channel, message)
     else:
@@ -288,7 +287,7 @@ def shut_afk(server, nick, channel, text, hostmask):
     try:
         stream = main.connect()
         stream.switch_dj()
-        message =  u'Disconnecting after current track. Start streaming a fallback song before the AFK Streamer disconnects.'
+        message =  u'Disconnecting after current track. Start streaming a fallback song before the AFK Streamer disconnects, and dont spam this command.'
     except:
         message = u"Something went wrong, please try again."
         logging.exception("AFK cleankill failed")
