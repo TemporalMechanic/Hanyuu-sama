@@ -299,7 +299,7 @@ shut_afk.handler = ("on_text", r'[.!@]cleankill',
 def announce(server):
     np = manager.NP()
     status = manager.Status()
-    if (len(np.faves) != 0 and np.length >= 30):
+    if (np.length >= 30): # Made it not longer require a fave to announce
         message = u"Now starting:{c4} '{np}' {c}[{curtime}/{length}]({listeners}/{max_listener}), {faves} fave{fs}, played {times} time{ts}, {c3}LP:{c} {lp}".format(
             np=np.metadata, curtime=np.positionf,
             length=np.lengthf, listeners=status.listeners,
@@ -379,7 +379,7 @@ def random(server, nick, channel, text, hostmask):
     else:
         server.notice(nick, message)
         
-random.handler = ("on_text", r'[.!@]random\b', irc.ALL_NICKS, irc.MAIN_CHANNELS)
+random.handler = ("on_text", r'[.!@]random\b', irc.ALL_NICKS, irc.MAIN_CHANNELS) # TODO: Decorators(Hiroto/Wessie)
 
 def lucky(server, nick, channel, text, hostmask):
     match = re.match(r"^(?P<mode>[.!@])lucky\s(?P<query>.*)", text, re.I|re.U)
@@ -675,7 +675,7 @@ def favorite_list(server, nick, channel, text, hostmask):
         server.notice(nick, 'Something went wrong')
         return
 
-    message = u'Favorites are at: https://r-a-d.io/#/favorites/{nick}'.format(nick=fnick)
+    message = u'Favorites are at: https://r-a-d.io/#/favorites/{nick}'.format(nick=fnick) #lolhardcoding
 
     if (mode == '@'):
         server.privmsg(channel, message)
