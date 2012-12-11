@@ -29,8 +29,8 @@ class Twilio(object): #TODO: something akin to adding this to logging
     
     def _sms_devs(self, message):
         if self.client is not None:
-        for dev in config.twilio.devs:
-            client.sms.message(to=dev, from=config.twilio.number,
+            for dev in config.twilio.devs:
+                client.sms.message(to=dev, from=config.twilio.number,
                                 body=message[:159]) # 160 limit for SMS. TODO: make this check elsewhere.
         else:
             logging.warning("Trying to call twilio without it enabled.")
