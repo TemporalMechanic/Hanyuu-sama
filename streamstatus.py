@@ -14,7 +14,7 @@ def get_listener_count(server_name='stream'):
             row = cur.fetchone()
             port = row['port']
             mount = row['mount']
-            url = 'http://{server}.r-a-d.io:{port}'.format(server=server_name,port=port)
+            url = 'http://{server}.{base}:{port}'.format(server=server_name,base=config.base_host,port=port) # Changed to config.base_host
         else:
             raise KeyError("unknown relay \"" + server_name + "\"")
     try:
@@ -75,7 +75,7 @@ def get_status(icecast_server):
         result = urllib2.urlopen(urllib2.Request(icecast_server,
                                             headers={'User-Agent': 'Mozilla'}))
     except HTTPError as e:
-        if e.code == 403: #assume it's a full server
+        if e.code == 403: # assume it's a full server
             logging.warning("Can't connect to status page; Assuming listener limit reached")
             f_fallback = MultiDict.OrderedMultiDict()
             f_fallback['Stream Title'] = 'Fallback at R/a/dio'
@@ -104,6 +104,8 @@ def get_status(icecast_server):
             logging.exception("HTTPError occured in status retrieval")
     except:
         # catching all why????
+        # This is a try: except: except: loop. my guess is if there's something other than HTTPError,
+        # something went wrong, but this is kinda "eh?" when we have everything in a try except finally loop anyway
         logging.exception("Can't connect to status page")
     else:
         parser = StatusParser()
@@ -119,11 +121,11 @@ def get_status(icecast_server):
     return {}
 def get_listeners(icecast_host):
     import socket
-    http_addr = 'http://'+icecast_host+':'+str(config.icecast_port)
+    http_addr = 'http://{icecast_host}:{port}'.format(icecast_port=config.icecast_host, port=str(config.icecast_port)) # made it less concat, more format
     
     cur_addr = socket.gethostbyname(icecast_host)
-    rad_addr = socket.gethostbyname("r-a-d.io")
-    stream_addr = socket.gethostbyname("stream.r-a-d.io")
+    rad_addr = socket.gethostbyname("r-a-d.io") #lolhardcoding
+    stream_addr = socket.gethostbyname("stream.r-a-d.io") #lolhardcoding
     
     if (cur_addr == rad_addr):
         auth = config.radio_admin_auth
