@@ -665,7 +665,7 @@ def lastfm_setuser(server, nick, channel, text, hostmask):
                 message = u"You are not known as any last.fm username."
     server.notice(nick, message)
 
-lastfm_setuser.handler = ("on_text", r'[\-.@!]fma.*',
+lastfm_setuser.handler = ("on_text", r'[\.@!]fma.*',
                           irc.ALL_NICKS, irc.MAIN_CHANNELS)
 
 def favorite_list(server, nick, channel, text, hostmask):
