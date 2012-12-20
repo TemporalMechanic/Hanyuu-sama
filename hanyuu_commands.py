@@ -578,7 +578,7 @@ request_help.handler = ("on_text", r'.*how.+request',
 def lastfm_listening(server, nick, channel, text, hostmask):
     import pylast
     message = u''
-    match = re.match(r"[\-.@!]fm?\s(?P<nick>.*)", text, re.I|re.U)
+    match = re.match(r"[\.@!]fm?\s(?P<nick>.*)", text, re.I|re.U)
     if match and match.group('nick') != '':
         nick = match.group('nick')
         
@@ -632,12 +632,12 @@ def lastfm_listening(server, nick, channel, text, hostmask):
     
     server.privmsg(channel, message)
 
-lastfm_listening.handler = ("on_text", r'[\-.@!]fm(\s|$).*',
+lastfm_listening.handler = ("on_text", r'[\.@!]fm(\s|$).*',
                           irc.ALL_NICKS, irc.MAIN_CHANNELS)
 
 def lastfm_setuser(server, nick, channel, text, hostmask):
     import pylast
-    match = re.match(r"[\-.@!]fma?\s(?P<user>.*)", text, re.I|re.U)
+    match = re.match(r"[\.@!]fma?\s(?P<user>.*)", text, re.I|re.U)
     message = u''
     if match and match.group('user') != '':
         username = match.group('user')
